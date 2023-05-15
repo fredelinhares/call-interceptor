@@ -19,6 +19,6 @@ class FragmentC : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val phoneNumber = arguments?.getString("phoneNumber")
         val textView: TextView? = view.findViewById(R.id.textView_c)
-        textView?.text = phoneNumber ?: "Nenhuma chamada feita ainda!"
+        textView?.text = phoneNumber ?: "Número não identifica ou nenhuma chamada feita ainda!"
     }
 }

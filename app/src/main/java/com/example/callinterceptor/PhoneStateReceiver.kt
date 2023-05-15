@@ -23,27 +23,22 @@ internal class PhoneStateReceiver(private val mainActivity: MainActivity) : Broa
 
     override fun onReceive(context: Context, intent: Intent) {
         var phoneNumber = ""
-        val a = intent.action
-        if (a == TelephonyManager.ACTION_PHONE_STATE_CHANGED) {
+        val action = intent.action
+        if (action == TelephonyManager.ACTION_PHONE_STATE_CHANGED) {
             phoneNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER) ?: ""
         }
-        if (a == Intent.ACTION_NEW_OUTGOING_CALL) {
+        if (action == Intent.ACTION_NEW_OUTGOING_CALL) {
             phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER) ?: ""
         }
 
         Log.d("123456789", phoneNumber)
+        redirectToApp(context, phoneNumber)
+    }
 
-        val fragment = when (phoneNumber) {
-            "40030101" -> FragmentA()
-            "456" -> FragmentB()
-            else -> FragmentC()
-        }
-
-         val args = Bundle().apply {
-            putString("phoneNumber", phoneNumber)
-        }
-        fragment.arguments = args
-
-        mainActivity.replaceFragment(fragment)
+    private fun redirectToApp(context: Context, phoneNumber: String) {
+        val mainActivityIntent = Intent(context, MainActivity::class.java)
+        mainActivityIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        mainActivityIntent.putExtra("phoneNumber", phoneNumber)
+        context.startActivity(mainActivityIntent)
     }
 }

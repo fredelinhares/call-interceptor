@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,15 +19,23 @@ class MainActivity : AppCompatActivity() {
         checkAndRequestPermissions()
         phoneStateReceiver.register(this)
 
-        val initialFragment = FragmentA()
-        replaceFragment(initialFragment)
+        val phoneNumber = intent.getStringExtra("phoneNumber")
+        replaceFragmentBasedOnPhoneNumber(phoneNumber)
     }
 
-    fun replaceFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+    private fun replaceFragmentBasedOnPhoneNumber(phoneNumber: String?) {
+        val fragment = when (phoneNumber) {
+            "40030101" -> FragmentA()
+            "031993927576" -> FragmentB()
+            else -> FragmentC()
+        }
+
+        val args = Bundle().apply {
+            putString("phoneNumber", phoneNumber)
+        }
+        fragment.arguments = args
+
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
     private fun checkAndRequestPermissions() {
