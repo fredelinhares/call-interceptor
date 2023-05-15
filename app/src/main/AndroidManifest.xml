@@ -40,6 +40,7 @@
                     android:scheme="seuapp" />
             </intent-filter>
         </activity>
+        <service android:name=".CallInterceptorService" android:exported="false" />
     </application>
 
 </manifest>

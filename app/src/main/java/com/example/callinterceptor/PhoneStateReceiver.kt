@@ -4,11 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.util.Log
 
-internal class PhoneStateReceiver(private val mainActivity: MainActivity) : BroadcastReceiver() {
+internal class PhoneStateReceiver() : BroadcastReceiver() {
 
     private var filters: IntentFilter = IntentFilter()
 
